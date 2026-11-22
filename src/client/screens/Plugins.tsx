@@ -13,6 +13,15 @@ function Icon({ src, size = 'md' }: { src: string | null; size?: 'md' | 'lg' }) 
     return <span className={`${box} pli:flex pli:shrink-0 pli:items-center pli:justify-center pli:rounded-lg pli:bg-muted pli:text-2xl pli:font-bold pli:text-muted-foreground`}>?</span>;
 }
 
+function Author({ project }: { project: Project }) {
+    if (!project.author_url) return <>{project.author}</>;
+    return (
+        <a href={project.author_url} target={'_blank'} rel={'noreferrer'} className={'pli:hover:text-foreground pli:hover:underline'}>
+            {project.author}
+        </a>
+    );
+}
+
 function Title({ name, url }: { name: string; url: string | null }) {
     return (
         <p className={'pli:flex pli:min-w-0 pli:items-center pli:gap-1.5 pli:font-semibold pli:text-foreground'}>
@@ -103,7 +112,7 @@ function VersionDialog({ uuid, filters, project, onClose, onDone }: { uuid: stri
                 <div className={'pli:flex pli:items-start pli:gap-3'}>
                     <Icon src={project.icon} size={'lg'} />
                     <div className={'pli:min-w-0'}>
-                        {project.author && <p className={'pli:text-sm pli:text-muted-foreground'}>By {project.author}</p>}
+                        {project.author && <p className={'pli:text-sm pli:text-muted-foreground'}>By <Author project={project} /></p>}
                         <p className={'pli:mt-1 pli:flex pli:flex-wrap pli:gap-x-3 pli:text-xs pli:text-muted-foreground'}>
                             <span className={'pli:flex pli:items-center pli:gap-1'}>
                                 <NamedIcon name={'download'} size={13} /> {count(project.downloads)} downloads
@@ -126,6 +135,8 @@ function VersionDialog({ uuid, filters, project, onClose, onDone }: { uuid: stri
                     <Label htmlFor={'pli-version'}>Version</Label>
                     {versions.isLoading ? (
                         <Spinner size={'small'} />
+                    ) : versions.error ? (
+                        <Alert type={'danger'}>{httpErrorToHuman(versions.error)}</Alert>
                     ) : versions.data?.length ? (
                         <Select id={'pli-version'} value={chosen} options={versions.data.map((v) => ({ value: v.id, label: v.name }))} onChange={(value) => setPicked(String(value))} />
                     ) : (
@@ -177,7 +188,7 @@ function Browse({ uuid, ctx, filters, installed, onInstalled }: { uuid: string; 
                             <Icon src={p.icon} />
                             <div className={'pli:min-w-0'}>
                                 <Title name={p.name} url={p.url} />
-                                {p.author && <p className={'pli:truncate pli:text-sm pli:text-muted-foreground'}>By {p.author}</p>}
+                                {p.author && <p className={'pli:truncate pli:text-sm pli:text-muted-foreground'}>By <Author project={p} /></p>}
                             </div>
                         </div>
                         <p className={'pli:line-clamp-2 pli:text-sm pli:text-muted-foreground'}>{p.description}</p>

@@ -15,6 +15,7 @@ export interface Project {
     id: string;
     name: string;
     author: string | null;
+    author_url: string | null;
     description: string;
     icon: string | null;
     downloads: number;
