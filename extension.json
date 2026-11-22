@@ -1,0 +1,40 @@
+{
+    "$schema": "./node_modules/@pterodactyl/sdk/manifest.schema.json",
+    "id": "plugin-installer",
+    "name": "Plugin Installer",
+    "version": "1.0.0",
+    "description": "Let users install Minecraft plugins from Modrinth, Hangar, SpigotMC and CurseForge.",
+    "author": "s4way",
+    "icon": "puzzle",
+    "requires": {
+        "panel": "^2.0.0-dev",
+        "sdk": ">=2.0.0-beta.5 <3.0",
+        "php": "^8.3"
+    },
+    "provider": "PluginInstaller\\PluginInstallerProvider",
+    "autoload": {
+        "PluginInstaller\\": "src"
+    },
+    "ui": {
+        "entry": "dist/client.js",
+        "mode": "native",
+        "prefix": "pli",
+        "screens": [
+            {
+                "id": "plugins",
+                "area": "server",
+                "path": "plugin-installer",
+                "nav": {
+                    "label": "Plugins",
+                    "icon": "puzzle"
+                },
+                "permission": [
+                    "file.read"
+                ],
+                "when": {
+                    "runtime": true
+                }
+            }
+        ]
+    }
+}
