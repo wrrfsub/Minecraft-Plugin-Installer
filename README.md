@@ -20,4 +20,6 @@ php artisan p:extension:install plugin-installer.pteroext --enable --replace
 - Pick which eggs show the Plugins page in the extension settings.
 - Add a CurseForge API key there to turn on CurseForge.
 
+Want mods instead? Check out [Minecraft Mod Installer](https://github.com/wrrfsub/Minecraft-Mod-Installer).
+
 ![A free s4way product](images/05-footer.png)
